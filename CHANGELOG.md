@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2025-06-21
+
+### Added
+- **Version Information**: New `--version/-v` command-line argument
+- **Dynamic Version Detection**: Automatic version reading from package metadata using `importlib.metadata`
+
+### Fixed
+- **Documentation**: Updated README.md installation instructions to use correct package name `treels-cli`
+- **Package References**: All documentation now consistently references the correct PyPI package name
+- **CLI Standards**: Added standard version argument following conventional CLI patterns
+
+### Technical
+- Improved CLI interface with proper version reporting
+- Enhanced user experience with easy version verification
+- Better package name consistency across all documentation
+
 ## [1.0.0] - 2025-06-21
 
 ### Added
@@ -37,5 +53,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Modular architecture with separate Git and tree printing classes
 - Extensive test coverage with temporary directory isolation
 
-[Unreleased]: https://github.com/faizananwerali/treels/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/faizananwerali/treels/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/faizananwerali/treels/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/faizananwerali/treels/releases/tag/v1.0.0

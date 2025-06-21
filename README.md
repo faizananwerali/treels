@@ -27,7 +27,7 @@ TreeLS combines the functionality of the classic `tree` command with Git status 
 ## 📦 Installation
 
 ```bash
-pip install treels
+pip install treels-cli
 ```
 
 Or install from source:

@@ -1,6 +1,6 @@
 """TreeLS - Enhanced Directory Tree Tool with Git Integration"""
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __author__ = "Faizan Ali"
 __description__ = (
     "Enhanced directory tree printer with Git integration and ls-like features"

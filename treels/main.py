@@ -11,7 +11,14 @@ from rich.tree import Tree
 from rich import print
 from rich.console import Console
 from rich.text import Text
+from importlib.metadata import version, PackageNotFoundError
 import argparse
+
+def get_version():
+    try:
+        return version("treels-cli")  # Your package name on PyPI
+    except PackageNotFoundError:
+        return "unknown"
 
 
 class GitRepository:
@@ -414,6 +421,13 @@ def main():
         "  treels --git-uncommitted-only             # Show any files with changes\n"
         "  treels --git-exclude-uncommitted          # Show only committed files\n",
         formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+
+    # Add version argument - this should be one of the first arguments
+    parser.add_argument(
+        '-v', '--version',
+        action='version',
+        version=f'treels {get_version()}'
     )
 
     parser.add_argument(
