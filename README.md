@@ -15,14 +15,14 @@ TreeLS combines the functionality of the classic `tree` command with Git status 
 
 ## 🎨 Git Status Colors
 
-| Color | Status | Description |
-|-------|--------|-------------|
-| 🔴 **Red** | Untracked | Files not in version control |
-| 🟢 **Green** | Staged | Files staged for commit |
-| 🟡 **Yellow** | Modified | Files modified but not staged |
-| ⚫ **Dark Grey** | Deleted | Files marked for deletion |
-| **Default** | Committed | Clean, committed files |
-| 🔘 **Grey** | Non-Git | Files in non-Git directories |
+| Color           | Status    | Description                   |
+|-----------------|-----------|-------------------------------|
+| 🔴 **Red**      | Untracked | Files not in version control  |
+| 🟢 **Green**    | Staged    | Files staged for commit       |
+| 🟡 **Yellow**   | Modified  | Files modified but not staged |
+| ⚫ **Dark Grey** | Deleted   | Files marked for deletion     |
+| **Default**     | Committed | Clean, committed files        |
+| 🔘 **Grey**     | Non-Git   | Files in non-Git directories  |
 
 ## 📦 Installation
 
@@ -274,27 +274,27 @@ treels --git-status --only-modified --only-untracked
 
 ## 🔧 Command Line Options
 
-| Option | Description |
-|--------|-------------|
-| `path` | Root directory (default: current directory) |
-| `-a, --all` | Show hidden files and directories |
-| `--show-ignored` | Show files ignored by .gitignore |
-| `--show-git` | Show .git folder (hidden by default) |
-| `--ignore DIRS` | Comma-separated list of directories to ignore |
-| `--max-depth N` | Maximum depth to traverse |
-| `--git-status` | Show Git status legend |
-| `--highlight-dirs` | Highlight directories in blue |
+| Option             | Description                                   |
+|--------------------|-----------------------------------------------|
+| `path`             | Root directory (default: current directory)   |
+| `-a, --all`        | Show hidden files and directories             |
+| `--show-ignored`   | Show files ignored by .gitignore              |
+| `--show-git`       | Show .git folder (hidden by default)          |
+| `--ignore DIRS`    | Comma-separated list of directories to ignore |
+| `--max-depth N`    | Maximum depth to traverse                     |
+| `--git-status`     | Show Git status legend                        |
+| `--highlight-dirs` | Highlight directories in blue                 |
 
 ### Git Filtering Options
 
-| Option | Description |
-|--------|-------------|
-| `--git-uncommitted-only` | Show only files with any changes |
-| `--git-exclude-uncommitted` | Show only committed (clean) files |
-| `--only-staged` | Show only staged files (green) |
-| `--only-modified` | Show only modified files (yellow) |
-| `--only-untracked` | Show only untracked files (red) |
-| `--only-deleted` | Show only deleted files (dark grey) |
+| Option                      | Description                         |
+|-----------------------------|-------------------------------------|
+| `--git-uncommitted-only`    | Show only files with any changes    |
+| `--git-exclude-uncommitted` | Show only committed (clean) files   |
+| `--only-staged`             | Show only staged files (green)      |
+| `--only-modified`           | Show only modified files (yellow)   |
+| `--only-untracked`          | Show only untracked files (red)     |
+| `--only-deleted`            | Show only deleted files (dark grey) |
 
 **Note**: The `--only-*` filters can be combined with OR logic. For example, `--only-staged --only-modified` shows files that are either staged OR modified.
 
