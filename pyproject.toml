@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "treels"
+version = "1.0.0"
+description = "Enhanced directory tree printer with Git integration"
+readme = "README.md"
+license = "MIT"  # Changed from {text = "MIT"} to simple string
+authors = [{name = "Faizan Ali"}]
+requires-python = ">=3.8"
+dependencies = ["rich>=13.0.0"]
+
+[project.scripts]
+treels = "treels.main:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["treels*"]

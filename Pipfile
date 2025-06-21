@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+rich = ">=13.0.0"
+
+[dev-packages]
+pytest = "*"
+black = "*"
+isort = "*"
+flake8 = "*"
+build = "*"
+twine = "*"
+
+[requires]
+python_version = "3.11"
+
+[scripts]
+test = "pytest"
+format = "black treels tests"
+lint = "flake8 treels"
+build = "python -m build"
