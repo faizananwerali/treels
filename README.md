@@ -274,18 +274,52 @@ treels --git-status --only-modified --only-untracked
     └── test_app.py
 ```
 
+### Git Status Codes
+```bash
+# Show Git status codes before filenames (like git status --short)
+treels --show-status-codes
+
+# Combine with colors and legend for full information
+treels --show-status-codes --git-status
+
+# Perfect for terminals without color support
+treels --show-status-codes --only-modified
+```
+
+**Example: With Git status codes (--show-status-codes)**
+```
+/home/user/my-app (git)
+├──    README.md
+├──    src/
+│   ├── A  api.py                # Green (staged)
+│   ├──  M utils.py              # Yellow (modified)
+│   └── ?? new_feature.py        # Red (untracked)
+└──  M app.py                    # Yellow (modified)
+
+Git Status: Red=Untracked  Green=Staged  Yellow=Modified
+
+Status Codes: ?? = Untracked, A  = Staged,  M = Modified,  D = Deleted
+```
+
+**Benefits of Status Codes:**
+- **Accessibility**: Works in terminals without color support
+- **CI/CD Friendly**: Status codes visible in automated logs
+- **Familiar**: Uses exact `git status --short` format
+- **Redundant Info**: Both visual colors AND text codes
+
 ## 🔧 Command Line Options
 
-| Option             | Description                                   |
-|--------------------|-----------------------------------------------|
-| `path`             | Root directory (default: current directory)   |
-| `-a, --all`        | Show hidden files and directories             |
-| `--show-ignored`   | Show files ignored by .gitignore              |
-| `--show-git`       | Show .git folder (hidden by default)          |
-| `--ignore DIRS`    | Comma-separated list of directories to ignore |
-| `--max-depth N`    | Maximum depth to traverse                     |
-| `--git-status`     | Show Git status legend                        |
-| `--highlight-dirs` | Highlight directories in blue                 |
+| Option                | Description                                   |
+|-----------------------|-----------------------------------------------|
+| `path`                | Root directory (default: current directory)   |
+| `-a, --all`           | Show hidden files and directories             |
+| `--show-ignored`      | Show files ignored by .gitignore              |
+| `--show-git`          | Show .git folder (hidden by default)          |
+| `--ignore DIRS`       | Comma-separated list of directories to ignore |
+| `--max-depth N`       | Maximum depth to traverse                     |
+| `--git-status`        | Show Git status legend                        |
+| `--highlight-dirs`    | Highlight directories in blue                 |
+| `--show-status-codes` | Show Git status codes before filenames        |
 
 ### Git Filtering Options
 

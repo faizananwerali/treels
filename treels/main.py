@@ -14,6 +14,7 @@ from rich.text import Text
 from importlib.metadata import version, PackageNotFoundError
 import argparse
 
+
 def get_version():
     try:
         return version("treels-cli")  # Your package name on PyPI
@@ -26,6 +27,7 @@ class GitRepository:
         self.repo_path = Path(repo_path)
         self.is_git_repo = self._is_git_repository()
         self.git_status = self._get_git_status() if self.is_git_repo else {}
+        self.git_status_codes = self._get_git_status_codes() if self.is_git_repo else {}
         self.gitignore_patterns = (
             self._load_gitignore_patterns() if self.is_git_repo else []
         )
@@ -89,6 +91,33 @@ class GitRepository:
         except ValueError:
             return False
 
+    def _get_git_status_codes(self) -> Dict[str, str]:
+        """Get raw Git status codes for each file"""
+        if not self.is_git_repo:
+            return {}
+
+        try:
+            result = subprocess.run(
+                ["git", "status", "--porcelain"],
+                cwd=self.repo_path,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+
+            status_codes = {}
+            for line in result.stdout.strip().split("\n"):
+                if not line:
+                    continue
+
+                status_code = line[:2]
+                file_path = line[3:]
+                status_codes[file_path] = status_code
+
+            return status_codes
+        except subprocess.CalledProcessError:
+            return {}
+
     def _get_git_status(self) -> Dict[str, str]:
         if not self.is_git_repo:
             return {}
@@ -148,6 +177,17 @@ class GitRepository:
         except ValueError:
             return None
 
+    def get_file_status_code(self, file_path: str) -> Optional[str]:
+        """Get the raw Git status code for a file"""
+        if not self.is_git_repo:
+            return None
+
+        try:
+            rel_path = os.path.relpath(file_path, self.repo_path)
+            return self.git_status_codes.get(rel_path, "  ")  # Default to spaces
+        except ValueError:
+            return "  "
+
 
 class DirectoryTreePrinter:
     def __init__(self, args):
@@ -191,11 +231,21 @@ class DirectoryTreePrinter:
     def _get_file_display_name(self, name: str, full_path: str, is_dir: bool) -> Text:
         text = Text()
 
-        if is_dir:
-            if self.args.highlight_dirs:
-                text.append(name + "/", style="bold blue")
+        # Get status code if requested
+        status_code = ""
+        if self.args.show_status_codes and self.git_repo and self.git_repo.is_git_repo:
+            raw_code = self.git_repo.get_file_status_code(full_path)
+            if raw_code and raw_code != "  ":
+                status_code = raw_code + " "
             else:
-                text.append(name + "/")  # No color for directories by default
+                status_code = "   "  # 3 spaces for alignment when no status
+
+        if is_dir:
+            display_name = status_code + name + "/"
+            if self.args.highlight_dirs:
+                text.append(display_name, style="bold blue")
+            else:
+                text.append(display_name)  # No color for directories by default
         else:
             # Default color for files
             file_style = None
@@ -216,10 +266,12 @@ class DirectoryTreePrinter:
                 # Not in git repo - show in grey
                 file_style = "dim"
 
+            display_name = status_code + name
+
             if file_style:
-                text.append(name, style=file_style)
+                text.append(display_name, style=file_style)
             else:
-                text.append(name)  # Default color for committed files
+                text.append(display_name)  # Default color for committed files
 
         return text
 
@@ -390,6 +442,11 @@ class DirectoryTreePrinter:
         )
         legend.append("\n(Combine multiple filters with OR logic)", style="dim")
 
+        if self.args.show_status_codes:
+            legend.append("\n\nStatus Codes: ", style="bold")
+            legend.append("?? = Untracked, A  = Staged, ", style="dim")
+            legend.append(" M = Modified,  D = Deleted", style="dim")
+
         if not self.args.show_ignored:
             legend.append(
                 "\nNote: .gitignore files are hidden (use --show-ignored to show)",
@@ -412,6 +469,7 @@ def main():
         "  treels -a                                 # Show hidden files (but not .git)\n"
         "  treels -a --show-git                      # Show all files including .git folder\n"
         "  treels --git-status                       # Show git status legend\n"
+        "  treels --show-status-codes                # Show git status codes before filenames\n"
         "  treels --only-staged                      # Show only staged files (green)\n"
         "  treels --only-modified                    # Show only modified files (yellow)\n"
         "  treels --only-untracked                   # Show only untracked files (red)\n"
@@ -419,15 +477,14 @@ def main():
         "  treels --only-staged --only-modified      # Show staged OR modified files\n"
         "  treels --only-untracked --only-modified   # Show untracked OR modified files\n"
         "  treels --git-uncommitted-only             # Show any files with changes\n"
-        "  treels --git-exclude-uncommitted          # Show only committed files\n",
+        "  treels --git-exclude-uncommitted          # Show only committed files\n"
+        "  treels --show-status-codes --git-status   # Show codes + colors + legend\n",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
     # Add version argument - this should be one of the first arguments
     parser.add_argument(
-        '-v', '--version',
-        action='version',
-        version=f'treels {get_version()}'
+        "-v", "--version", action="version", version=f"treels {get_version()}"
     )
 
     parser.add_argument(
@@ -449,6 +506,12 @@ def main():
         "--show-git",
         action="store_true",
         help="Show .git folder (hidden by default even with -a)",
+    )
+
+    parser.add_argument(
+        "--show-status-codes",
+        action="store_true",
+        help="Show git status codes before filenames (like git status --short)",
     )
 
     parser.add_argument(
