@@ -2,6 +2,8 @@
 
 Enhanced directory tree printer with Git integration and ls-like features.
 
+![image](https://github.com/user-attachments/assets/0b9938f8-0d9a-474a-9e52-a55e75209435)
+
 TreeLS combines the functionality of the classic `tree` command with Git status awareness, providing color-coded file status indicators and powerful filtering options. Perfect for developers who want to quickly visualize project structure and Git state.
 
 ## ✨ Features
