@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.1.0] - 2025-06-22
+## [1.1.1] - 2025-06-22
 
 ### Added
 - **Git Status Codes**: New `--show-status-codes` option displays Git status codes before filenames
@@ -72,7 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Modular architecture with separate Git and tree printing classes
 - Extensive test coverage with temporary directory isolation
 
-[Unreleased]: https://github.com/faizananwerali/treels/compare/v1.1.0...HEAD
-[1.1.0]: https://github.com/faizananwerali/treels/compare/v1.0.1...v1.1.0
+[Unreleased]: https://github.com/faizananwerali/treels/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/faizananwerali/treels/compare/v1.0.1...v1.1.1
 [1.0.1]: https://github.com/faizananwerali/treels/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/faizananwerali/treels/releases/tag/v1.0.0
